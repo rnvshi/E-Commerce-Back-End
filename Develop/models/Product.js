@@ -1,6 +1,7 @@
 // import important parts of sequelize library
 const { Model, DataTypes } = require('sequelize');
-const { canTreatArrayAsAnd } = require('sequelize/types/lib/utils');
+// const { canTreatArrayAsAnd } = require('sequelize/types/lib/utils');
+
 // import our database connection from config.js
 const sequelize = require('../config/connection');
 
