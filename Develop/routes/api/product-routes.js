@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 // get one product
 router.get('/:id', async (req, res) => {
   try {
-    const productData = await Product.findByPk({
+    const productData = await Product.findByPk(req.params.id, {
       include: [{
         model: Category,
         attributes: ["id", "category_name"],
@@ -50,19 +50,6 @@ router.get('/:id', async (req, res) => {
 
 // create new product
 router.post('/', async (req, res) => {
-
-  try {
-    const productData = await Product.create({
-      product_name: req.body.product_name,
-      price: req.body.price,
-      stock: req.body.stock,
-      tagIds: req.body.tagIds,
-    });
-
-    res.status(200).json(productData);
-  } catch (err) {
-    res.status(500).json(err)
-  }
 
   Product.create(req.body)
     .then((product) => {
@@ -89,11 +76,12 @@ router.post('/', async (req, res) => {
 // update product
 router.put('/:id', (req, res) => {
   // update product data
-  Product.update(req.body, {
-    where: {
-      id: req.params.id,
-    },
-  })
+  Product.update(req.body,
+    {
+      where: {
+        id: req.params.id,
+      },
+    })
     .then((product) => {
       // find all associated tags from ProductTag
       return ProductTag.findAll({ where: { product_id: req.params.id } });
